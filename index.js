@@ -13,7 +13,10 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(
   cors({
-    origin: "*",
+    origin: [
+        "http://localhost:3000", 
+        "https://facebook-sso.vercel.app" 
+      ],
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true, 
