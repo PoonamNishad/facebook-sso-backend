@@ -13,10 +13,10 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow frontend origin
+    origin: ["http://localhost:3000", "https://facebook-sso.vercel.app", "http://fb-sso-fcdnb5duaze3bshn.canadacentral-01.azurewebsites.net"],
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
-    credentials: true, // Allow sending cookies (if needed)
+    credentials: true, 
   })
 );
 
