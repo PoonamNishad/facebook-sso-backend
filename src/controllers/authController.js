@@ -21,18 +21,17 @@ exports.facebookLogin = async (req, res) => {
       params: { access_token: accessToken, fields: "id,name,email,picture" },
     });
     const user = userResponse.data;
-    console.log("user",user)
     let existingUser = await User.findOne({ email: user.email });
     if (!existingUser) {
       existingUser = new User({ name: user.name, email: user.email, password: "", picture: user.picture.data.url, facebookId: user.id });
       await existingUser.save();
     }
     const jwtToken = jwt.sign(
-      { id: existingUser._id, name: existingUser.name, email: existingUser.email,picture: user.picture.data.url, facebookId: user.id },
+      { id: existingUser._id, name: existingUser.name, email: existingUser.email, picture: user.picture.data.url, facebookId: user.id },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.json({ token: jwtToken, user: existingUser });
+    res.json({ token: jwtToken, fbToken: accessToken, user: existingUser });
   } catch (error) {
     console.error("Facebook login error:", error);
     res.status(400).json({ error: "Authentication failed" });
